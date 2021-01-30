@@ -58,3 +58,16 @@ logging:
     io.caoyu.emos.wx.db.dao : warn
   pattern:
     console: "%d{HH:mm:ss}  %-5level  %msg%n"
+
+emos:
+  jwt:
+    #密钥
+    secret: abc123456
+    #令牌过期时间（天）
+    expire:  5
+    #令牌缓存时间（天数）
+    cache-expire: 10
+
+wx:
+  app-id: wxe7e892ccd31e845f
+  app-secret: f56e5bcec90395a509e232da6237b4d0
