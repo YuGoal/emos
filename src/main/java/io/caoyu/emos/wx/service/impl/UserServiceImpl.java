@@ -69,13 +69,24 @@ public class UserServiceImpl implements UserService {
                 throw new EmosException("无法绑定超级管理员账号");
             }
         } else {
-            return 0;
+
         }
+        return 0;
     }
 
     @Override
     public Set<String> searchUserPermissions(int userId) {
-        Set<String> permissions=userDao.searchUserPermissions(userId);
+        Set<String> permissions = userDao.searchUserPermissions(userId);
         return permissions;
+    }
+
+    @Override
+    public Integer login(String code) {
+        String openId = getOpenId(code);
+        Integer id = userDao.searchIdByOpenId(openId);
+        if (id == null) {
+            throw new EmosException("账户不存在");
+        }
+        return id;
     }
 }
