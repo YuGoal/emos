@@ -3,6 +3,8 @@ package io.caoyu.emos.wx.db.dao;
 import io.caoyu.emos.wx.db.pojo.SysConfig;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface SysConfigDao {
     int deleteByPrimaryKey(Integer id);
@@ -16,4 +18,6 @@ public interface SysConfigDao {
     int updateByPrimaryKeySelective(SysConfig record);
 
     int updateByPrimaryKey(SysConfig record);
+
+    public List<SysConfig> selectAllParam();
 }
