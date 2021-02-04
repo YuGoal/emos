@@ -84,4 +84,13 @@
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="haveCheckin" parameterType="HashMap" resultType="Integer">
+    SELECT id
+    FROM tb_checkin
+    WHERE user_id = #{userId} AND date = CURRENT_DATE
+    AND create_time BETWEEN #{start} AND #{end}
+    LIMIT 1;
+</select>
+
 </mapper>

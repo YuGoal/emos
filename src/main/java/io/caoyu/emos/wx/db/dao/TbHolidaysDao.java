@@ -16,4 +16,5 @@ public interface TbHolidaysDao {
     int updateByPrimaryKeySelective(TbHolidays record);
 
     int updateByPrimaryKey(TbHolidays record);
+    public Integer searchTodayIsHolidays();
 }
