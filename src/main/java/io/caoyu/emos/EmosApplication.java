@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import io.caoyu.emos.wx.config.SystemConstants;
 import io.caoyu.emos.wx.db.dao.SysConfigDao;
 import io.caoyu.emos.wx.db.pojo.SysConfig;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @ServletComponentScan
 @SpringBootApplication
+@Slf4j
 public class EmosApplication {
     @Autowired
     private SysConfigDao sysConfigDao;
