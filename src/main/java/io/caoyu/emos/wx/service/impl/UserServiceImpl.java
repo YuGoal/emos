@@ -5,6 +5,7 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import io.caoyu.emos.wx.db.dao.TbUserDao;
 import io.caoyu.emos.wx.db.exception.EmosException;
+import io.caoyu.emos.wx.db.pojo.TbUser;
 import io.caoyu.emos.wx.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,5 +89,11 @@ public class UserServiceImpl implements UserService {
             throw new EmosException("账户不存在");
         }
         return id;
+    }
+
+    @Override
+    public TbUser searchById(int userId) {
+        TbUser user = userDao.searchById(userId);
+        return user;
     }
 }

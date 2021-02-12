@@ -28,4 +28,6 @@ public interface TbUserDao {
     int searchIdByOpenId(String openId);
 
     public Set<String> searchUserPermissions(int userId);
+
+    public TbUser searchById(int userId);
 }
