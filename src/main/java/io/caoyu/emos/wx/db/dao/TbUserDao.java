@@ -8,26 +8,19 @@ import java.util.Set;
 
 @Mapper
 public interface TbUserDao {
-    int deleteByPrimaryKey(Integer id);
+    public boolean haveRootUser();
 
-    int insert(TbUser record);
+    public int insert(HashMap param);
 
-    int insertSelective(TbUser record);
-
-    TbUser selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(TbUser record);
-
-    int updateByPrimaryKey(TbUser record);
-
-    //判断超级管理员是否已经绑定
-    boolean haveRootUser();
-    //插入用户数据
-    int insertUser(HashMap map);
-    //查询用户id
-    int searchIdByOpenId(String openId);
+    public Integer searchIdByOpenId(String openId);
 
     public Set<String> searchUserPermissions(int userId);
 
     public TbUser searchById(int userId);
+
+    public HashMap searchNameAndDept(int userId);
+
+    public String searchUserHiredate(int userId);
+
+    public HashMap searchUserSummary(int userId);
 }

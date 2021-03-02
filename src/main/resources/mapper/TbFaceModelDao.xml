@@ -5,7 +5,7 @@
       SELECT face_model FROM tb_face_model
       WHERE user_id = #{userId}
     </select>
-    <insert id="insertFaceModel" parameterType="io.caoyu.emos.wx.db.pojo.TbFaceModel">
+    <insert id="insert" parameterType="io.caoyu.emos.wx.db.pojo.TbFaceModel">
     INSERT INTO tb_face_model
     SET user_id = #{userId},face_model = #{faceModel}
   </insert>
