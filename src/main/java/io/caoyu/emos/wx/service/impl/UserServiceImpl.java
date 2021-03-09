@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
                 param.put("status", 1);
                 param.put("createTime", new Date());
                 param.put("root", true);
-                userDao.insertUser(param);
+                userDao.insert(param);
                 int id = userDao.searchIdByOpenId(openId);
                 return id;
             } else {

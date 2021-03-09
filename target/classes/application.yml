@@ -45,6 +45,12 @@ spring:
       username: admin
       password: abc123456
 
+  mail:
+    default-encoding: UTF-8
+    host: smtp.163.com
+    username: yugoal1127@163.com
+    password: CAOYU1127
+
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
   type-aliases-package: io.caoyu.emos.wx.db.pojo
@@ -68,6 +74,16 @@ emos:
     #令牌缓存时间（天数）
     cache-expire: 10
 
+  face:
+    createFaceModelUrl: http://192.168.1.6:3000/create_face_model
+    checkinUrl: http://192.168.1.6:3000/checkin
+
+  email:
+    system: yugoal1127@163.com
+    hr: yugoal1127@163.com
+
+  image-folder: D:/emos/image
+  code: 72A160150EA64EB9
 wx:
   app-id: wxe7e892ccd31e845f
   app-secret: f56e5bcec90395a509e232da6237b4d0
