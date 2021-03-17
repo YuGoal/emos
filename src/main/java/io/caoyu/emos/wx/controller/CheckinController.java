@@ -1,12 +1,15 @@
 package io.caoyu.emos.wx.controller;
 
+import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import io.caoyu.emos.wx.common.util.R;
+import io.caoyu.emos.wx.config.SystemConstants;
 import io.caoyu.emos.wx.config.shiro.JwtUtil;
 import io.caoyu.emos.wx.controller.form.CheckinForm;
 import io.caoyu.emos.wx.db.exception.EmosException;
 import io.caoyu.emos.wx.service.CheckinService;
+import io.caoyu.emos.wx.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @RequestMapping("/checkin")
@@ -34,6 +38,12 @@ public class CheckinController {
 
     @Value("${emos.image-folder}")
     private String imageFolder;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private SystemConstants systemConstants;
 
 
     @GetMapping("/validCanCheckIn")
@@ -59,14 +69,14 @@ public class CheckinController {
         } else {
             try {
                 file.transferTo(Paths.get(path));
-                HashMap param=new HashMap();
-                param.put("userId",userId);
-                param.put("path",path);
-                param.put("city",form.getCity());
-                param.put("district",form.getDistrict());
-                param.put("address",form.getAddress());
-                param.put("country",form.getCountry());
-                param.put("province",form.getProvince());
+                HashMap param = new HashMap();
+                param.put("userId", userId);
+                param.put("path", path);
+                param.put("city", form.getCity());
+                param.put("district", form.getDistrict());
+                param.put("address", form.getAddress());
+                param.put("country", form.getCountry());
+                param.put("province", form.getProvince());
                 checkinService.checkin(param);
                 return R.ok("签到成功");
             } catch (IOException e) {
@@ -82,7 +92,7 @@ public class CheckinController {
     @ApiOperation("创建人脸模型")
     public R createFaceModel(@RequestParam("photo") MultipartFile file, @RequestHeader("token") String token) {
         int userId = jwtUtil.getUserId(token);
-        if (file==null) {
+        if (file == null) {
             return R.error("没有上传文件");
         }
         String fileName = file.getOriginalFilename().toLowerCase();
@@ -101,5 +111,34 @@ public class CheckinController {
                 FileUtil.del(path);
             }
         }
+    }
+
+    @GetMapping("/searchTodayCheckin")
+    @ApiOperation("查询用户当日签到数据")
+    public R searchTodayCheckin(@RequestHeader("token") String token) {
+
+
+        int userId = jwtUtil.getUserId(token);
+
+        HashMap map = checkinService.searchTodayCheckin(userId);
+        map.put("attendanceTime", systemConstants.attendanceTime);
+        map.put("closingTime", systemConstants.closingTime);
+        long days = checkinService.searchCheckinDays(userId);
+        map.put("checkinDays", days);
+
+        //判断日期是否在用户入职之前
+        DateTime hiredate = DateUtil.parse(userService.searchUserHiredate(userId));
+        DateTime startDate = DateUtil.beginOfWeek(DateUtil.date());
+        if (startDate.isBefore(hiredate)) {
+            startDate = hiredate;
+        }
+        DateTime endDate = DateUtil.endOfWeek(DateUtil.date());
+        HashMap param = new HashMap();
+        param.put("startDate", startDate.toString());
+        param.put("endDate", endDate.toString());
+        param.put("userId", userId);
+        ArrayList<HashMap> list = checkinService.searchWeekCheckin(param);
+        map.put("weekCheckin", list);
+        return R.ok().put("result", map);
     }
 }

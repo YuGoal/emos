@@ -13,4 +13,6 @@
     DELETE FROM tb_face_model
     WHERE user_id = #{userId}
   </delete>
+
+
 </mapper>

@@ -219,21 +219,19 @@ public class CheckinServiceImpl implements CheckinService {
 
     @Override
     public HashMap searchTodayCheckin(int userId) {
-        /*HashMap map = checkinDao.searchTodayCheckin(userId);
-        return map;*/
-        return null;
+        HashMap map = checkinDao.searchTodayCheckin(userId);
+        return map;
     }
 
     @Override
     public long searchCheckinDays(int userId) {
-        /*long days = checkinDao.searchCheckinDays(userId);
-        return days;*/
-        return 0;
+        long days = checkinDao.searchCheckinDays(userId);
+        return days;
     }
 
     @Override
     public ArrayList<HashMap> searchWeekCheckin(HashMap param) {
-        /*ArrayList<HashMap> checkinList = checkinDao.searchWeekCheckin(param);
+        ArrayList<HashMap> checkinList = checkinDao.searchWeekCheckin(param);
         ArrayList holidaysList = holidaysDao.searchHolidaysInRange(param);
         ArrayList workdayList = workdayDao.searchWorkdayInRange(param);
         DateTime startDate = DateUtil.parseDate(param.get("startDate").toString());
@@ -275,8 +273,7 @@ public class CheckinServiceImpl implements CheckinService {
             map.put("day", one.dayOfWeekEnum().toChinese("周"));
             list.add(map);
         });
-        return list;*/
-        return null;
+        return list;
     }
 
     @Override
