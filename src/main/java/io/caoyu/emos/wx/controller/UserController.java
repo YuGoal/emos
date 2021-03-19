@@ -12,12 +12,10 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -52,7 +50,7 @@ public class UserController {
 
     @PostMapping("/login")
     @ApiOperation("用户登录")
-    public R login(@Valid @RequestBody LoginForm form){
+    public R login(@Valid @RequestBody LoginForm form) {
         int id = userService.login(form.getCode());
         String token = jwtUtil.createToken(id);
         Set<String> permsSet = userService.searchUserPermissions(id);
@@ -64,8 +62,15 @@ public class UserController {
     @PostMapping("/addUser")
     @ApiOperation("添加用户")
     @RequiresPermissions(value = {"ROOT", "USER:ADD"}, logical = Logical.OR)
-    public R addUser(){
+    public R addUser() {
         return R.ok("用户添加成功");
     }
 
+    @GetMapping("/searchUserSummary")
+    @ApiOperation("查询用户摘要信息")
+    public R searchUserSummary(@RequestHeader("token") String token) {
+        int userId = jwtUtil.getUserId(token);
+        HashMap map = userService.searchUserSummary(userId);
+        return R.ok().put("result", map);
+    }
 }

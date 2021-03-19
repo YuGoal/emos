@@ -2,6 +2,7 @@ package io.caoyu.emos.wx.service;
 
 import io.caoyu.emos.wx.db.pojo.TbUser;
 
+import java.util.HashMap;
 import java.util.Set;
 
 public interface UserService {
@@ -14,4 +15,6 @@ public interface UserService {
     public TbUser searchById(int userId);
 
     public String searchUserHiredate(int userId);
+
+    public HashMap searchUserSummary(int userId);
 }
